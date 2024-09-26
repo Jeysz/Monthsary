@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Envelope Message</title>
+</head>
+<body>
+    <!-- Video with playback controls -->
+    <video id="video" class="picture" autoplay loop muted controls>
+        <source src="us.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video> <!-- Video replaces your picture -->
+
+    <!-- Custom playback speed control -->
+    <div class="playback-controls">
+        <label for="playbackRate">Playback Speed:</label>
+        <input type="range" id="playbackRate" min="0.5" max="2" step="0.1" value="1">
+        <span id="speedDisplay">1x</span> <!-- Display current speed -->
+    </div>
+
+    <div class="music-player">
+        <p class="track-name">🎵 PALAGI</p>
+        <audio id="audio" src="PALAGI - TJxKZ Version  OFFICIAL LYRIC VIDEO.mp3" preload="auto"></audio>
+        <div class="play-container">
+            <button class="play-button" onclick="togglePlay()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+            <img src="spotify.png" class="spotify-logo" alt="Spotify Logo"> <!-- Spotify logo -->
+        </div>
+        <input type="range" id="audioSeek" value="0" step="1" min="0"> <!-- Audio seek bar -->
+    </div>
+    
+    <div class="envelope" id="envelope" onclick="toggleEnvelope()">
+        <div class="flap" id="flap"></div>
+        <div class="heart"></div>
+        <div class="content" id="content">
+            <p class="message">𝓗𝓮𝔂 𝓐𝓷𝓰𝓮𝓵! 𝓨𝓸𝓾 𝓪𝓻𝓮 𝓽𝓱𝓮 𝓵𝓲𝓰𝓱𝓽 𝓸𝓯 𝓶𝔂 𝓵𝓲𝓯𝓮. 𝓔𝓿𝓮𝓻𝔂 𝓶𝓸𝓶𝓮𝓷𝓽 𝔀𝓲𝓽𝓱 𝔂𝓸𝓾 𝓲𝓼 𝓪 𝓽𝓻𝓮𝓪𝓼𝓾𝓻𝓮, 𝓪𝓷𝓭 𝓘 𝓵𝓸𝓿𝓮 𝔂𝓸𝓾 𝓶𝓸𝓻𝓮 𝓽𝓱𝓪𝓷 𝔀𝓸𝓻𝓭𝓼 𝓬𝓪𝓷 𝓼𝓪𝔂! 💖</p>
+        </div>
+    </div>
+
+    <div id="confetti-container"></div> <!-- Confetti container -->
+
+    <script>
+        const audio = document.getElementById('audio');
+        const audioSeek = document.getElementById('audioSeek');
+        let isConfettiRunning = false; // Flag to track confetti status
+
+        // Video element and playback rate control
+        const video = document.getElementById('video');
+        const playbackRateInput = document.getElementById('playbackRate');
+        const speedDisplay = document.getElementById('speedDisplay');
+
+        playbackRateInput.addEventListener('input', function () {
+            const playbackRate = playbackRateInput.value;
+            video.playbackRate = playbackRate;
+            speedDisplay.textContent = playbackRate + 'x'; // Display the current speed
+        });
+
+        function toggleEnvelope() {
+            const envelope = document.getElementById('envelope');
+            envelope.classList.toggle('open');
+            
+            if (envelope.classList.contains('open')) {
+                startConfetti(); // Start confetti animation
+            } else {
+                stopConfetti(); // Stop confetti when the envelope is closed
+            }
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                startSeekBarUpdate();
+            } else {
+                audio.pause();
+            }
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            audioSeek.max = Math.floor(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            audioSeek.value = Math.floor(audio.currentTime);
+        });
+
+        audioSeek.addEventListener('input', () => {
+            audio.currentTime = audioSeek.value;
+        });
+
+        function startSeekBarUpdate() {
+            setInterval(() => {
+                if (!audio.paused) {
+                    audioSeek.value = Math.floor(audio.currentTime);
+                }
+            }, 1000);
+        }
+
+        // Confetti animation
+        function startConfetti() {
+            if (isConfettiRunning) return; // Prevent multiple confetti layers
+            let confettiContainer = document.getElementById('confetti-container');
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's'; // Random speed for each heart
+                confetti.style.opacity = Math.random();
+                confettiContainer.appendChild(confetti);
+            }
+            isConfettiRunning = true;
+        }
+
+        function stopConfetti() {
+            let confettiContainer = document.getElementById('confetti-container');
+            confettiContainer.innerHTML = ''; // Clear the confetti elements
+            isConfettiRunning = false;
+        }
+    </script>
+</body>
+</html>

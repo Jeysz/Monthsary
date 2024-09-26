@@ -1,0 +1,164 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: black; /* Background color set to black */
+    font-family: 'Arial', sans-serif;
+    position: relative;
+    overflow: hidden; /* Prevent overflow */
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    width: 100%;
+    height: 100%;
+    background-image: url('heart.jpg'); /* Background image */
+    background-size: cover; /* Cover the entire area */
+    background-repeat: no-repeat; /* Do not repeat */
+    background-position: center; /* Center the image */
+    z-index: -1; /* Send background image to back */
+}
+
+.picture {
+    position: relative; /* Allow stacking above the background */
+    width: auto; /* Adjust as needed */
+    max-width: 80%; /* Limit the width */
+    z-index: 1; /* Bring picture to the front */
+    opacity: 1; /* Full opacity for the picture */
+}
+
+.music-player {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #1db954;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.track-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.play-container {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+.play-button {
+    background: #1db954; /* Green background for visibility */
+    border: none;
+    border-radius: 50%; /* Make it circular */
+    cursor: pointer;
+    padding: 10px; /* Add padding for easier clicking */
+    display: flex; /* Center the SVG */
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s; /* Smooth transition for hover effect */
+}
+
+.play-button:hover {
+    background: #1aa34a; /* Darker green on hover */
+}
+
+.spotify-logo {
+    width: 30px; /* Adjust width of the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 10px; /* Space between button and logo */
+}
+
+.envelope {
+    width: 400px; /* Envelope width */
+    height: 250px; /* Envelope height */
+    background: #ff99cc;
+    border-radius: 5px;
+    position: absolute; /* Changed to absolute positioning */
+    top: 20%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the envelope */
+    overflow: hidden;
+    transition: height 0.5s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 2; /* Bring envelope above the picture */
+}
+
+.flap {
+    width: 400px; /* Match flap width */
+    height: 50px;
+    background: #ff66b2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.5s;
+    transform-origin: top;
+}
+
+.heart {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px; /* Heart size */
+    height: 50px; /* Heart size */
+    background: red;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.content {
+    padding: 90px 20px 10px; /* Adjust padding */
+    opacity: 0;
+    transition: opacity 0.5s;
+    text-align: center;
+}
+
+.message {
+    color: #fff;
+    font-size: 20px; /* Font size for the message */
+    font-family: 'Cursive', sans-serif; /* Cursive font */
+}
+
+.envelope.open .flap {
+    transform: rotateX(-180deg);
+}
+
+.envelope.open .content {
+    opacity: 1;
+}
+
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* So confetti doesn't interfere with interactions */
+    z-index: 3;
+}
+
+.confetti {
+    position: absolute;
+    width: 20px; /* Size of hearts */
+    height: 20px;
+    background-color: red; /* Heart color */
+    clip-path: polygon(50% 0%, 100% 37%, 82% 100%, 50% 70%, 18% 100%, 0% 37%);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
